@@ -13,7 +13,7 @@
 
 <body>
     <div class="form-container" ng-controller="myController">
-        <p id="sectionTitle" class="form-header">User Profile</p>
+        <p id="sectionTitle" class="form-header"><b>User Profile</b></p>
         <form method="POST" action="/user/update">
             <label>Username:</label>
             <input type="text" id="username" name="username" ng-model="user.username" disabled><br>
@@ -24,6 +24,13 @@
             <input type="submit" id="save" value="Save">
         </form>
     </div>
+    <br>
+    <br>
+    <form method="POST" action="/user/addCat">
+        <input type="submit" name="cat" value="Add a random cat!"/>
+    </form>
+    <br>
+    <br>
     <form method="POST" action="/user/delete">
         <input type="submit" id="delete" value="Delete User">
     </form>

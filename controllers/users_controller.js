@@ -1,13 +1,38 @@
 var crypto = require('crypto');
 var mongoose = require('mongoose'),
-    User = mongoose.model('User');
-function hashPW(pwd){
+  User = mongoose.model('User');
+var request = require('request');
+
+function hashPW(pwd) {
   return crypto.createHash('sha256').update(pwd).
-         digest('base64').toString();
+  digest('base64').toString();
 }
-exports.signup = function(req, res){
+exports.getCat = function(req, res) {
+  request('https://aws.random.cat/meow', function(error, response, body) {
+    User.findOne({ _id: req.session.user })
+      .exec(function(err, user) {
+        //user.memes.push(res.json(body));
+        console.log(JSON.parse(body));
+        var myCatFile = JSON.parse(body);
+        console.log(myCatFile.file);
+        user.memes.push(myCatFile.file);
+        user.save(function(err) {
+          if (err) {
+            res.sessor.error = err;
+          }
+          else {
+            req.session.msg = 'User Updated.';
+            req.session.memes = user.memes;
+          }
+          res.redirect('/user');
+        });
+      });
+  });
+};
+
+exports.signup = function(req, res) {
   console.log("Begin exports.signup");
-  var user = new User({username:req.body.username});
+  var user = new User({ username: req.body.username });
   console.log("after new user exports.signup");
   user.set('hashed_password', hashPW(req.body.password));
   console.log("after hashing user exports.signup");
@@ -16,10 +41,11 @@ exports.signup = function(req, res){
   user.save(function(err) {
     console.log("In exports.signup");
     console.log(err);
-    if (err){
+    if (err) {
       res.session.error = err;
       res.redirect('/signup');
-    } else {
+    }
+    else {
       req.session.user = user.id;
       req.session.username = user.username;
       req.session.msg = 'Authenticated as ' + user.username;
@@ -27,76 +53,81 @@ exports.signup = function(req, res){
     }
   });
 };
-exports.login = function(req, res){
+exports.login = function(req, res) {
   User.findOne({ username: req.body.username })
-  .exec(function(err, user) {
-    if (!user){
-      err = 'User Not Found.';
-    } else if (user.hashed_password ===
-               hashPW(req.body.password.toString())) {
-      req.session.regenerate(function(){
-        console.log("login");
-        console.log(user);
-        req.session.user = user.id;
-        req.session.username = user.username;
-        req.session.msg = 'Authenticated as ' + user.username;
-        req.session.memes = user.memes;
-        res.redirect('/');
-      });
-    }else{
-      err = 'Authentication failed.';
-    }
-    if(err){
-      req.session.regenerate(function(){
-        req.session.msg = err;
-        res.redirect('/login');
-      });
-    }
-  });
+    .exec(function(err, user) {
+      if (!user) {
+        err = 'User Not Found.';
+      }
+      else if (user.hashed_password ===
+        hashPW(req.body.password.toString())) {
+        req.session.regenerate(function() {
+          console.log("login");
+          console.log(user);
+          req.session.user = user.id;
+          req.session.username = user.username;
+          req.session.msg = 'Authenticated as ' + user.username;
+          req.session.memes = user.memes;
+          res.redirect('/');
+        });
+      }
+      else {
+        err = 'Authentication failed.';
+      }
+      if (err) {
+        req.session.regenerate(function() {
+          req.session.msg = err;
+          res.redirect('/login');
+        });
+      }
+    });
 };
 exports.getUserProfile = function(req, res) {
   User.findOne({ _id: req.session.user })
-  .exec(function(err, user) {
-    if (!user){
-      res.json(404, {err: 'User Not Found.'});
-    } else {
-      res.json(user);
-    }
-  });
-};
-exports.updateUser = function(req, res){
-  User.findOne({ _id: req.session.user })
-  .exec(function(err, user) {
-    user.set('email', req.body.email);
-    user.memes.push(req.body.meme);
-    user.save(function(err) {
-      if (err){
-        res.sessor.error = err;
-      } else {
-        req.session.msg = 'User Updated.';
-        req.session.memes = user.memes;
+    .exec(function(err, user) {
+      if (!user) {
+        res.json(404, { err: 'User Not Found.' });
       }
-      res.redirect('/user');
+      else {
+        res.json(user);
+      }
     });
-  });
 };
-exports.deleteUser = function(req, res){
+exports.updateUser = function(req, res) {
   User.findOne({ _id: req.session.user })
-  .exec(function(err, user) {
-    if(user){
-      user.remove(function(err){
-        if (err){
-          req.session.msg = err;
+    .exec(function(err, user) {
+      user.set('email', req.body.email);
+      user.memes.push(req.body.meme);
+      user.save(function(err) {
+        if (err) {
+          res.sessor.error = err;
         }
-        req.session.destroy(function(){
+        else {
+          req.session.msg = 'User Updated.';
+          req.session.memes = user.memes;
+        }
+        res.redirect('/user');
+      });
+    });
+};
+exports.deleteUser = function(req, res) {
+  User.findOne({ _id: req.session.user })
+    .exec(function(err, user) {
+      if (user) {
+        user.remove(function(err) {
+          if (err) {
+            req.session.msg = err;
+          }
+          req.session.destroy(function() {
+            res.redirect('/login');
+          });
+        });
+      }
+      else {
+        req.session.msg = "User Not Found!";
+        req.session.destroy(function() {
           res.redirect('/login');
         });
-      });
-    } else{
-      req.session.msg = "User Not Found!";
-      req.session.destroy(function(){
-        res.redirect('/login');
-      });
-    }
-  });
+      }
+    });
 };
