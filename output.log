@@ -1,0 +1,68 @@
+nohup: ignoring input
+before / Route
+Connected
+(node:822) DeprecationWarning: collection.ensureIndex is deprecated. Use createIndexes instead.
+/ Route
+Session {
+  cookie: 
+   { path: '/',
+     _expires: 2019-01-07T08:48:52.070Z,
+     originalMaxAge: 2628000000,
+     httpOnly: true },
+  msg: 'Access denied!' }
+/ Route else user
+[0mGET / [36m302 [0m13.953 ms - 56[0m
+/login Route
+[0mGET /login [32m200 [0m12.051 ms - 800[0m
+[0mGET /stylesheets/style.css [32m200 [0m3.315 ms - 111[0m
+[0mGET /favicon.ico [33m404 [0m2.240 ms - 289[0m
+/login Route
+[0mGET /login [36m304 [0m1.687 ms - -[0m
+[0mGET /stylesheets/style.css [36m304 [0m1.841 ms - -[0m
+[0mGET /favicon.ico [33m404 [0m1.095 ms - 289[0m
+/ Route
+Session {
+  cookie: 
+   { path: '/',
+     _expires: 2019-01-07T08:49:35.904Z,
+     originalMaxAge: 2628000000,
+     httpOnly: true },
+  msg: 'Access denied!' }
+/ Route else user
+[0mGET / [36m302 [0m9.888 ms - 56[0m
+/login Route
+[0mGET /login [36m304 [0m1.927 ms - -[0m
+[0mGET /stylesheets/style.css [36m304 [0m1.702 ms - -[0m
+[0mGET /favicon.ico [33m404 [0m1.635 ms - 289[0m
+/ Route
+Session {
+  cookie: 
+   { path: '/',
+     _expires: 2019-01-07T08:49:41.128Z,
+     originalMaxAge: 2628000000,
+     httpOnly: true },
+  msg: 'Access denied!' }
+/ Route else user
+[0mGET / [36m302 [0m1.677 ms - 56[0m
+/login Route
+[0mGET /login [36m304 [0m2.242 ms - -[0m
+[0mGET /stylesheets/style.css [32m200 [0m1.215 ms - 111[0m
+[0mGET /favicon.ico [33m404 [0m0.902 ms - 289[0m
+/ Route
+Session {
+  cookie: 
+   { path: '/',
+     _expires: 2019-01-07T08:50:31.707Z,
+     originalMaxAge: 2628000000,
+     httpOnly: true },
+  msg: 'Access denied!' }
+/ Route else user
+[0mGET / [36m302 [0m1.714 ms - 56[0m
+/login Route
+[0mGET /login [36m304 [0m1.472 ms - -[0m
+[0mGET /stylesheets/style.css [36m304 [0m3.492 ms - -[0m
+[0mGET /favicon.ico [33m404 [0m0.765 ms - 289[0m
+[0mGET /favicon.ico [33m404 [0m0.761 ms - 289[0m
+/login Route
+[0mGET /login [32m200 [0m1.261 ms - 786[0m
+[0mGET /stylesheets/style.css [32m200 [0m1.512 ms - 111[0m

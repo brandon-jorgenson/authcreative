@@ -1,0 +1,56 @@
+<!doctype html>
+<html ng-app="myApp">
+
+<head>
+    <title>Meme Storage</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css" />
+    <style>
+        body {
+            background-color: lightblue;
+        }
+
+        img {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin: 10px;
+            width: 400px;
+            height: 400px;
+        }
+    </style>
+</head>
+
+<body>
+    <div ng-controller="myController">
+        <h2 id="welcomeText">Welcome! You are Logged In as
+            <%= username %>!
+        </h2>
+        <a id="logoutLink" href="/logout">Logout</a>
+        <a id="editLink" href="/user">Edit User + Add Memes!</a>
+        <!-- <p>Place Your Code Here
+            <p>
+                -->
+    </div>
+    <hr>
+    <span id="indexMsg">
+        <%= msg %>
+        <p>Click "edit user" to add memes to your storage.  When you see a great meme, don't forget to store it for later laughs!</p>
+    </span>
+    <hr> Your Favorite Memes:
+    <span id="memeImages">
+        <div class="row">
+       <% 
+       if(memes != undefined) {
+       for (var i = 0; i < memes.length; i++) { %>
+        <div class="col-md-3">
+       <img src="<%= memes[i] %>" />
+       </div>
+    <% }
+    }%>
+    </div>
+      </span>
+    <script src="http://code.angularjs.org/1.2.9/angular.min.js"></script>
+    <script src="/javascripts/my_app.js"></script>
+</body>
+
+</html>
